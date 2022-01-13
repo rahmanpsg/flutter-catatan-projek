@@ -1,4 +1,3 @@
-import 'package:catatan_projek/app/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -10,15 +9,11 @@ class SettingView extends GetView<SettingController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SettingView'),
+        title: Text('Pengaturan'),
         centerTitle: true,
       ),
-      backgroundColor: bgColor,
       body: Center(
-        child: Text(
-          'SettingView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+        child: Text("On Progress"),
       ),
     );
   }

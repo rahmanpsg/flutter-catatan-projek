@@ -13,5 +13,6 @@ class AppTheme {
           titleTextStyle: kHeaderStyle,
           iconTheme: IconThemeData(color: secondaryColor),
         ),
+        backgroundColor: bgColor,
       );
 }

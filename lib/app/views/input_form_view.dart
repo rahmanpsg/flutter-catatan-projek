@@ -2,8 +2,8 @@ import 'package:catatan_projek/app/utils/currency_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TambahForm extends StatelessWidget {
-  const TambahForm({
+class InputForm extends StatelessWidget {
+  const InputForm({
     Key? key,
     required this.title,
     required this.hint,
@@ -34,6 +34,7 @@ class TambahForm extends StatelessWidget {
         Expanded(
           child: TextFormField(
             controller: controller,
+            textInputAction: TextInputAction.next,
             keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             inputFormatters: [
               if (isNumber) FilteringTextInputFormatter.digitsOnly,

@@ -33,7 +33,7 @@ class LandingView extends GetView<LandingController> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              label: 'Settings',
+              label: 'Pengaturan',
             ),
           ],
           currentIndex: controller.currentIndex.value,

@@ -63,76 +63,13 @@ class HomeCard extends GetView<TransaksiController> {
             ),
           ),
           const Divider(color: Colors.grey),
-          for (var transaksi in transaksis.reversed)
-            ListTransaksi(
-                nama: transaksi.nama,
-                judul: transaksi.judul,
-                pemasukan: transaksi.pemasukan,
-                belumLunas: transaksi.belumLunas)
-
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //     children: <Widget>[
-          //       Container(
-          //         constraints: const BoxConstraints(
-          //           minWidth: 90,
-          //           maxWidth: 90,
-          //         ),
-          //         child: Text('Herlina'),
-          //       ),
-          //       SizedBox(width: 4),
-          //       Expanded(
-          //         child: Text(
-          //             'Aplikasi Administrasi Mahasiswa Tingkat Akhir Fakultas Teknik UM-Pare'),
-          //       ),
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.end,
-          //         children: <Widget>[
-          //           Text(
-          //             '5.000.000',
-          //             style: warningStyle,
-          //           ),
-          //           Text(
-          //             '- 2.500.000',
-          //             style: dangerStyle,
-          //           ),
-          //         ],
-          //       )
-          //     ],
-          //   ),
-          // ),
-          // const SizedBox(height: 8),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //     children: <Widget>[
-          //       Container(
-          //         constraints: const BoxConstraints(
-          //           minWidth: 90,
-          //           maxWidth: 90,
-          //         ),
-          //         child: Text('Adriana'),
-          //       ),
-          //       SizedBox(width: 4),
-          //       Expanded(
-          //         child: Text(
-          //             'Aplikasi Administrasi Mahasiswa Tingkat Akhir Fakultas Teknik UM-Pare'),
-          //       ),
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.end,
-          //         children: <Widget>[
-          //           Text(
-          //             '5.000.000',
-          //           ),
-          //         ],
-          //       )
-          //     ],
-          //   ),
-          // ),
-          // const SizedBox(height: 8),
+          ...transaksis.reversed
+              .map(
+                (transaksi) => ListTransaksi(
+                  transaksi: transaksi,
+                ),
+              )
+              .toList()
         ],
       ),
     );

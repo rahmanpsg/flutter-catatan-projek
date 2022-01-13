@@ -1,16 +1,16 @@
-import 'package:catatan_projek/app/modules/tambah/controllers/tambah_controller.dart';
+import 'package:catatan_projek/app/modules/detail/controllers/detail_controller.dart';
 import 'package:catatan_projek/app/themes/app_colors.dart';
 import 'package:catatan_projek/app/views/input_form_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-class TambahView extends GetView<TambahController> {
+class DetailView extends GetView<DetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Transaksi'),
+        title: Text('Detail Transaksi'),
         centerTitle: true,
       ),
       body: Container(
@@ -48,19 +48,39 @@ class TambahView extends GetView<TambahController> {
                 isNumber: true,
               ),
               SizedBox(height: 12),
-              TextButton.icon(
-                onPressed: () {
-                  controller.simpanTransaksi(context);
-                },
-                icon: Icon(Icons.save),
-                label: Text("Simpan"),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.1,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextButton.icon(
+                    onPressed: () {
+                      controller.hapusTransaksi();
+                    },
+                    icon: Icon(Icons.delete),
+                    label: Text("Hapus"),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                      primary: Colors.white,
+                      backgroundColor: dangerColor,
+                    ),
                   ),
-                  primary: Colors.white,
-                  backgroundColor: secondaryColor,
-                ),
+                  TextButton.icon(
+                    onPressed: () {
+                      controller.updateTransaksi(context);
+                    },
+                    icon: Icon(Icons.save),
+                    label: Text("Update"),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                      primary: Colors.white,
+                      backgroundColor: secondaryColor,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

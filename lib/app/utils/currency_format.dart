@@ -10,12 +10,12 @@ class CurrencyInputFormat extends TextInputFormatter {
       return newValue;
     }
 
-    double value = double.parse(newValue.text);
-
     final formatter = NumberFormat.simpleCurrency(
       locale: 'id_Id',
       decimalDigits: 0,
     );
+
+    double value = double.parse(newValue.text);
 
     String newText = formatter.format(value).replaceAll('Rp', '');
 
@@ -23,4 +23,12 @@ class CurrencyInputFormat extends TextInputFormatter {
         text: newText,
         selection: TextSelection.collapsed(offset: newText.length));
   }
+}
+
+String currencyFormat(int harga) {
+  final formatter = NumberFormat.simpleCurrency(
+    locale: 'id_Id',
+    decimalDigits: 0,
+  );
+  return formatter.format(harga).replaceAll('Rp', '');
 }

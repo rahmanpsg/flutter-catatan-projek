@@ -1,12 +1,12 @@
 import 'package:catatan_projek/app/controllers/transaksi_controller.dart';
 import 'package:catatan_projek/app/data/models/transaksi_model.dart';
-import 'package:catatan_projek/app/modules/landing/controllers/landing_controller.dart';
 import 'package:catatan_projek/app/themes/app_colors.dart';
+import 'package:catatan_projek/app/utils/currency_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class TambahController extends GetxController {
+class DetailController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController tahunController;
   late TextEditingController namaController;
@@ -14,8 +14,9 @@ class TambahController extends GetxController {
   late TextEditingController jumlahController;
   late TextEditingController belumLunasController;
 
-  late TransaksiController transaksiController;
-  late LandingController landingController;
+  late TransaksiController _transaksiController;
+
+  late Transaksi _transaksi;
 
   @override
   void onInit() {
@@ -25,8 +26,12 @@ class TambahController extends GetxController {
     jumlahController = TextEditingController();
     belumLunasController = TextEditingController();
 
-    transaksiController = Get.find<TransaksiController>();
-    landingController = Get.find<LandingController>();
+    _transaksiController = Get.find<TransaksiController>();
+
+    _transaksi = Get.arguments as Transaksi;
+
+    setData(_transaksi);
+
     super.onInit();
   }
 
@@ -37,6 +42,14 @@ class TambahController extends GetxController {
     judulController.dispose();
     jumlahController.dispose();
     belumLunasController.dispose();
+  }
+
+  void setData(Transaksi transaksi) {
+    tahunController.text = transaksi.tahun.toString();
+    namaController.text = transaksi.nama;
+    judulController.text = transaksi.judul;
+    jumlahController.text = currencyFormat(transaksi.pemasukan);
+    belumLunasController.text = currencyFormat(transaksi.belumLunas);
   }
 
   void selectTahun(BuildContext context) {
@@ -70,28 +83,29 @@ class TambahController extends GetxController {
     }
   }
 
-  void simpanTransaksi(BuildContext context) {
+  void updateTransaksi(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      Transaksi transaksi = Transaksi(
-        tahun: int.parse(
-          tahunController.text,
-        ),
-        nama: namaController.text,
-        judul: judulController.text,
-        pemasukan: int.parse(
-          jumlahController.text.replaceAll('.', ''),
-        ),
-        belumLunas: int.parse(
-          belumLunasController.text.replaceAll('.', ''),
-        ),
-      );
+      _transaksi.tahun = int.parse(tahunController.text);
+      _transaksi.nama = namaController.text;
+      _transaksi.judul = judulController.text;
+      _transaksi.pemasukan =
+          int.parse(jumlahController.text.replaceAll('.', ''));
+      _transaksi.belumLunas =
+          int.parse(belumLunasController.text.replaceAll('.', ''));
 
-      if (transaksiController.addTransaksi(transaksi)) {
-        resetForm();
-        FocusScope.of(context).unfocus();
-        landingController.changePage(0);
-      }
+      _transaksi.save();
+      _transaksiController.getAllTransaksi();
+
+      resetForm();
+      FocusScope.of(context).unfocus();
+      Get.back();
     }
+  }
+
+  void hapusTransaksi() async {
+    await _transaksi.delete();
+    _transaksiController.getAllTransaksi();
+    Get.back();
   }
 
   void resetForm() {

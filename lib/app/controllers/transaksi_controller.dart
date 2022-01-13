@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:catatan_projek/app/data/models/catatan_model.dart';
 import 'package:catatan_projek/app/data/models/transaksi_model.dart';
-import 'package:catatan_projek/app/modules/landing/controllers/landing_controller.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +27,7 @@ class TransaksiController extends GetxController {
 
       // _transaksiBox.deleteFromDisk();
 
-      getTransaksi();
+      getAllTransaksi();
     } catch (e) {
       print(e);
     }
@@ -41,16 +40,14 @@ class TransaksiController extends GetxController {
       _transaksiBox.add(transaksi);
       // _transaksiBox.put('transaksi', transaksi);
 
-      int index = getIndexTransaksi(transaksi.tahun);
+      int index =
+          catatans.indexWhere((catatan) => catatan.tahun == transaksi.tahun);
 
       if (index != -1) {
         catatans[index].transaksis.add(transaksi);
 
-        int _pemasukan = catatans[index].pemasukan += transaksi.pemasukan;
-        int _belumLunas = catatans[index].belumLunas += transaksi.belumLunas;
-
-        pemasukan += _pemasukan;
-        belumLunas += _belumLunas;
+        catatans[index].pemasukan += transaksi.pemasukan;
+        catatans[index].belumLunas += transaksi.belumLunas;
       } else {
         Catatan catatan = Catatan(
             tahun: transaksi.tahun,
@@ -61,10 +58,11 @@ class TransaksiController extends GetxController {
         catatans.add(catatan);
 
         catatans.sort((a, b) => b.tahun - a.tahun);
-
-        pemasukan += transaksi.pemasukan;
-        belumLunas += transaksi.belumLunas;
       }
+
+      pemasukan += transaksi.pemasukan;
+      belumLunas += transaksi.belumLunas;
+
       return true;
     } catch (e) {
       printError(info: e.toString());
@@ -72,21 +70,15 @@ class TransaksiController extends GetxController {
     }
   }
 
-  void getTransaksi() {
+  void getAllTransaksi() {
     try {
-      // Map<int, List<Transaksi>> _catatans = {};
-
+      resetData();
       for (var i = 0; i < _transaksiBox.values.length; i++) {
         Transaksi transaksi = _transaksiBox.getAt(i)!;
         _transaksis.add(transaksi);
-
-        // _catatans[_transaksi.tahun] = transaksis;
       }
 
-      // log(_catatans.toString());
-
       groupTransaksi();
-      // update();
     } catch (e) {
       print(e);
     }
@@ -99,9 +91,9 @@ class TransaksiController extends GetxController {
       keys.add(tran.tahun);
     }
 
-    // log(keys.toList().reversed.toString());
+    log(keys.toList().reversed.toString());
 
-    keys.toList().reversed.forEach((tahun) {
+    keys.toList().forEach((tahun) {
       List<Transaksi> transaksis = [
         ..._transaksis.where((trans) => trans.tahun == tahun)
       ];
@@ -128,31 +120,14 @@ class TransaksiController extends GetxController {
       catatans.add(catatan);
     });
 
-    // _catatans.forEach((key, trans) {
-    //   int _pemasukan = trans
-    //       .map((e) => e.pemasukan)
-    //       .reduce((value, element) => value + element);
-
-    //   int _belumLunas = trans
-    //       .map((e) => e.belumLunas)
-    //       .reduce((value, element) => value + element);
-
-    //   Catatan _cat = Catatan(
-    //       tahun: key,
-    //       pemasukan: _pemasukan,
-    //       belumLunas: _belumLunas,
-    //       transaksis: trans);
-
-    //   catatans.add(_cat);
-
-    //   //
-    //   pemasukan.value += _pemasukan;
-    //   belumLunas.value += _belumLunas;
-    // });
+    catatans.sort((a, b) => b.tahun - a.tahun);
   }
 
-  int getIndexTransaksi(int tahun) {
-    return catatans.indexWhere((catatan) => catatan.tahun == tahun);
+  void resetData() {
+    _transaksis.clear();
+    catatans.clear();
+    pemasukan.value = 0;
+    belumLunas.value = 0;
   }
 
   String formatHarga(int harga) {
