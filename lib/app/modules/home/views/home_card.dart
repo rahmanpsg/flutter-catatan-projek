@@ -1,6 +1,7 @@
 import 'package:catatan_projek/app/controllers/transaksi_controller.dart';
 import 'package:catatan_projek/app/data/models/transaksi_model.dart';
 import 'package:catatan_projek/app/modules/home/views/list_transaksi.dart';
+import 'package:catatan_projek/app/themes/app_colors.dart';
 import 'package:catatan_projek/app/themes/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -40,10 +41,31 @@ class HomeCard extends GetView<TransaksiController> {
                     minWidth: 90,
                     maxWidth: 90,
                   ),
-                  child: Text(
-                    tahun,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  child: IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          tahun,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        VerticalDivider(
+                          color: primaryColor,
+                          thickness: 2,
+                        ),
+                        Center(
+                          child: Text(
+                            "${transaksis.length}\nProjek",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

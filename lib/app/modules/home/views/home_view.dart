@@ -69,7 +69,6 @@ class HomeView extends GetView<TransaksiController> {
                           );
                         }),
               ),
-              SizedBox(height: 36),
             ],
           );
         },

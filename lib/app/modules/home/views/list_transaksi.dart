@@ -4,7 +4,6 @@ import 'package:catatan_projek/app/routes/app_pages.dart';
 import 'package:catatan_projek/app/themes/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 
 class ListTransaksi extends GetView<TransaksiController> {
   const ListTransaksi({
@@ -27,7 +26,10 @@ class ListTransaksi extends GetView<TransaksiController> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 4,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -53,7 +55,7 @@ class ListTransaksi extends GetView<TransaksiController> {
                     ),
                     if (transaksi.belumLunas > 0)
                       Text(
-                        '- ${controller.formatHarga(transaksi.belumLunas)}',
+                        controller.formatHarga(transaksi.belumLunas),
                         style: dangerStyle,
                       ),
                   ],
